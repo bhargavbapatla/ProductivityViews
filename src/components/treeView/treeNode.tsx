@@ -85,8 +85,10 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLo
 
   const handleEditKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
+      e.stopPropagation(); // Prevent drag from starting
       handleEditSubmit();
     } else if (e.key === 'Escape') {
+      e.stopPropagation();
       setEditName(node.name);
       setIsEditing(false);
     }
@@ -145,15 +147,17 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLo
         >
           +
         </button>
-        <button 
-          className="action-btn delete-btn" 
-          onPointerDown={(e) => e.stopPropagation()} 
-          onClick={handleDelete} 
-          aria-label="Delete Node"
-          data-tooltip="Delete Node"
-        >
-          ✕
-        </button>
+        {levelCode !== 65 && (
+          <button 
+            className="action-btn delete-btn" 
+            onPointerDown={(e) => e.stopPropagation()} 
+            onClick={handleDelete} 
+            aria-label="Delete Node"
+            data-tooltip="Delete Node"
+          >
+            ✕
+          </button>
+        )}
       </div>
 
       <div className={`children-grid-wrapper ${isExpanded ? 'expanded' : ''}`}>
