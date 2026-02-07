@@ -1,0 +1,203 @@
+.tree-container {
+  font-family: 'Inter', sans-serif;
+  padding: 40px;
+  background-color: #fcfcfc;
+}
+
+.node-wrapper {
+  position: relative;
+  margin-left: 32px;
+}
+
+.node-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: -20px;
+  bottom: 22px;
+  border-left: 1px dashed #ccc;
+}
+
+.tree-root > .node-wrapper::before { display: none; }
+
+.node-item {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 12px;
+  width: fit-content;
+  position: relative;
+  z-index: 10;
+  cursor: grab;
+}
+
+.node-item::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  width: 20px;
+  border-top: 1px dashed #ccc;
+}
+
+.circle-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  margin-right: 14px;
+  cursor: pointer;
+}
+
+.node-label { font-size: 14px; font-weight: 600; color: #333; cursor: pointer; }
+
+.action-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  position: relative; /* For tooltip positioning */
+}
+
+.action-btn.add-btn {
+  color: #3498db;
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.action-btn.add-btn:hover {
+  background: #3498db;
+  color: white;
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+}
+
+.action-btn.delete-btn {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.action-btn.delete-btn:hover {
+  background: #e74c3c;
+  color: white;
+  box-shadow: 0 2px 4px rgba(231, 76, 60, 0.3);
+}
+
+/* Tooltip Styles */
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #333;
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+[data-tooltip]:hover::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 2px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #333 transparent transparent;
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-50%) translateX(-5px); }
+  to { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+
+.children-grid-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-out;
+}
+
+.children-grid-wrapper.expanded { grid-template-rows: 1fr; }
+
+.children-container { overflow: hidden; min-height: 0; }
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Input Styles */
+.node-input {
+  background-color: #f2f2f2;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  width: 200px;
+}
+
+.node-input:focus {
+  background-color: #fff;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.modal-input {
+  background-color: #f2f2f2;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  font-family: inherit;
+  outline: none;
+}
+
+.modal-input:focus {
+  background-color: #fff;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
