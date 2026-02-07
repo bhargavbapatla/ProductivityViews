@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Front-End Developer Test: Tree View</h1>
+      <h1>Tree View</h1>
       <TreeView />
     </div>
   )

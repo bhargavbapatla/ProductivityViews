@@ -46,7 +46,7 @@ export const TreeView: React.FC = () => {
             name: 'Root Level', 
             children: [
                 { id: '2', name: 'Child 1', children: [], isLoaded: true },
-                { id: '3', name: 'Lazy Node (Expand Me)', children: [], isLoaded: false, hasChildren: true }
+                { id: '3', name: 'Child 2', children: [], isLoaded: false, hasChildren: true }
             ], 
             isLoaded: true 
         }
@@ -228,7 +228,7 @@ export const TreeView: React.FC = () => {
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
         >
-            <div style={{ padding: '40px', background: '#f9fafb', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+            <div className="tree-container">
                 <SortableContext 
                     items={treeData.map(n => n.id)}
                     strategy={verticalListSortingStrategy}
@@ -252,7 +252,7 @@ export const TreeView: React.FC = () => {
                 <DragOverlay dropAnimation={dropAnimation}>
                     {activeId ? (
                         <div className="node-item" style={{ background: 'white', border: '1px solid #ccc', borderRadius: '8px', padding: '8px 12px' }}>
-                           Drag Item
+                           {findNode(treeData, activeId)?.name || 'Drag Item'}
                         </div>
                     ) : null}
                 </DragOverlay>
