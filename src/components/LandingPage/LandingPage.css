@@ -1,0 +1,232 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.landing-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 10px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border: none; /* Remove any previous borders */
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.card-icon {
+  width: 180px;
+  height: 180px;
+  margin-bottom: 30px;
+}
+
+.card h2 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.arrow {
+  margin-top: 20px;
+  color: #667eea;
+  font-size: 1.5rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.card:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  h1 {
+      font-size: 2rem;
+  }
+  
+  .cards-container {
+      gap: 30px;
+  }
+  
+  .card-icon {
+      width: 150px;
+      height: 150px;
+  }
+}
+
+/* ---------------- SVG Animations ---------------- */
+
+/* Tree View Animations */
+@keyframes fadeInScale {
+  from {
+      opacity: 0;
+      transform: scale(0);
+  }
+  to {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+
+@keyframes drawLine {
+  from {
+      stroke-dashoffset: 100;
+  }
+  to {
+      stroke-dashoffset: 0;
+  }
+}
+
+/* Apply transform-box: fill-box and transform-origin: center to ensure scaling works from center of elements in SVG */
+.tree-node-1, .tree-node-2a, .tree-node-2b, 
+.tree-node-3a, .tree-node-3b, .tree-node-3c, .tree-node-3d,
+.tree-node-4a, .tree-node-4b, .tree-node-4c, .tree-node-4d {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.tree-node-1 { animation: fadeInScale 0.4s ease-out 0.1s both; }
+.tree-line-1 { animation: drawLine 0.3s ease-out 0.5s both; stroke-dasharray: 100; }
+
+.tree-line-2a { animation: drawLine 0.3s ease-out 0.8s both; stroke-dasharray: 100; }
+.tree-line-2b { animation: drawLine 0.3s ease-out 0.8s both; stroke-dasharray: 100; }
+.tree-node-2a { animation: fadeInScale 0.4s ease-out 1.1s both; }
+.tree-node-2b { animation: fadeInScale 0.4s ease-out 1.1s both; }
+
+.tree-line-3a { animation: drawLine 0.3s ease-out 1.5s both; stroke-dasharray: 100; }
+.tree-line-3b { animation: drawLine 0.3s ease-out 1.5s both; stroke-dasharray: 100; }
+.tree-line-3c { animation: drawLine 0.3s ease-out 1.5s both; stroke-dasharray: 100; }
+.tree-line-3d { animation: drawLine 0.3s ease-out 1.5s both; stroke-dasharray: 100; }
+.tree-node-3a { animation: fadeInScale 0.4s ease-out 1.8s both; }
+.tree-node-3b { animation: fadeInScale 0.4s ease-out 1.8s both; }
+.tree-node-3c { animation: fadeInScale 0.4s ease-out 1.8s both; }
+.tree-node-3d { animation: fadeInScale 0.4s ease-out 1.8s both; }
+
+.tree-line-4a { animation: drawLine 0.3s ease-out 2.2s both; stroke-dasharray: 100; }
+.tree-line-4b { animation: drawLine 0.3s ease-out 2.2s both; stroke-dasharray: 100; }
+.tree-line-4c { animation: drawLine 0.3s ease-out 2.2s both; stroke-dasharray: 100; }
+.tree-line-4d { animation: drawLine 0.3s ease-out 2.2s both; stroke-dasharray: 100; }
+.tree-node-4a { animation: fadeInScale 0.4s ease-out 2.5s both; }
+.tree-node-4b { animation: fadeInScale 0.4s ease-out 2.5s both; }
+.tree-node-4c { animation: fadeInScale 0.4s ease-out 2.5s both; }
+.tree-node-4d { animation: fadeInScale 0.4s ease-out 2.5s both; }
+
+/* Kanban Animations */
+@keyframes slideUp {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+/* Column 1 animations */
+.kanban-col-1 { animation: fadeIn 0.4s ease-out 0.1s both; }
+.kanban-card-1-1 { animation: slideUp 0.4s ease-out 0.3s both; }
+.kanban-card-1-2 { animation: slideUp 0.4s ease-out 0.5s both; }
+.kanban-card-1-3 { animation: slideUp 0.4s ease-out 0.7s both; }
+
+/* Column 2 animations */
+.kanban-col-2 { animation: fadeIn 0.4s ease-out 0.9s both; }
+.kanban-card-2-1 { animation: slideUp 0.4s ease-out 1.1s both; }
+.kanban-card-2-2 { animation: slideUp 0.4s ease-out 1.3s both; }
+
+/* Column 3 animations */
+.kanban-col-3 { animation: fadeIn 0.4s ease-out 1.5s both; }
+.kanban-card-3-1 { animation: slideUp 0.4s ease-out 1.7s both; }
+
+/* Header dots */
+.kanban-dots-1 { animation: fadeIn 0.3s ease-out 0.2s both; }
+.kanban-dots-2 { animation: fadeIn 0.3s ease-out 1.0s both; }
+.kanban-dots-3 { animation: fadeIn 0.3s ease-out 1.6s both; }

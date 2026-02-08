@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSortable, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { AddIcon, DeleteIcon } from '../Icons/Icons';
 import './treeView.css';
 import type { TreeNodeData } from '../../types';
 
@@ -145,7 +146,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLo
           aria-label="Add Child Node"
           data-tooltip="Add Child Node"
         >
-          +
+          <AddIcon />
         </button>
         {levelCode !== 65 && (
           <button 
@@ -155,7 +156,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLo
             aria-label="Delete Node"
             data-tooltip="Delete Node"
           >
-            ✕
+            <DeleteIcon />
           </button>
         )}
       </div>
