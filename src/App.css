@@ -10,19 +10,39 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  background-color: #f8fafc; /* Base background */
+  /* Modern Sharp Dot Pattern */
+  background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
+  background-size: 24px 24px;
 }
+
+/* Optional: Add a subtle vignette or mask if desired, but user asked for "all the way to the header" 
+   so we probably want consistent coverage. 
+   If we want the "vignette" effect from before, we can use a pseudo-element on .app-content 
+*/
 
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background: white;
-  border-bottom: 1px solid #eaeaea;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  background: rgba(255, 255, 255, 0.7); /* Translucent */
+  backdrop-filter: blur(12px); /* Glassmorphism */
+  border-bottom: 1px solid rgba(234, 234, 234, 0.5);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   position: sticky;
   top: 0;
   z-index: 100;
+  flex-wrap: wrap; /* Allow wrapping on very small screens if needed */
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    padding: 0.75rem 1rem;
+    flex-wrap: nowrap; /* Keep on one line for mobile usually */
+  }
 }
 
 .back-button {
@@ -37,6 +57,23 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .back-button {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .back-button span {
+    display: none; /* Hide text on small screens, keep icon */
+  }
+  
+  .back-button::after {
+    content: "Back"; /* Optional short text */
+    display: inline;
+  }
 }
 
 .back-button:hover {
@@ -50,17 +87,42 @@
   font-weight: 600;
   color: #333;
   margin: 0;
+  text-align: center;
+  flex: 1; /* Allow it to take available space */
+}
+
+@media (max-width: 600px) {
+  .header-title {
+    font-size: 1.1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .header-spacer {
   width: 100px; /* Balance the header */
 }
 
+@media (max-width: 600px) {
+  .header-spacer {
+    display: none; /* Remove spacer on mobile to save space */
+  }
+}
+
 .main-container {
   flex: 1;
   padding: 2rem;
-  background-color: #fcfcfc;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%; /* Ensure full width */
+  box-sizing: border-box; /* Include padding in width */
+}
+
+@media (max-width: 600px) {
+  .main-container {
+    padding: 1rem; /* Reduce padding on mobile */
+  }
 }

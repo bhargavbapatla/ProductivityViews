@@ -7,7 +7,7 @@
 
 .landing-page {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  background: transparent; /* Changed from opaque gradient to transparent to show global dots */
   min-height: 100vh;
   display: flex;
   align-items: center;

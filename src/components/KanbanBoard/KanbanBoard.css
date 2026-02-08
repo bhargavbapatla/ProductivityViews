@@ -6,6 +6,14 @@
   padding: 20px;
   box-sizing: border-box;
   align-items: center; /* Center the columns if they don't fill width */
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  .kanban-board {
+    padding: 10px; /* Reduce padding on mobile */
+    gap: 16px;
+  }
 }
 
 .kanban-columns-container {
@@ -14,13 +22,16 @@
   width: 100%;
   overflow-x: auto;
   align-items: flex-start; /* Align columns to top */
-  justify-content: center;
+  justify-content: flex-start; /* Start from left on desktop */
+  padding-bottom: 20px; /* Space for scrollbar */
 }
 
 @media (max-width: 768px) {
   .kanban-columns-container {
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden; /* Vertical stack doesn't need horiz scroll usually */
+    height: auto;
   }
 }
 
@@ -29,11 +40,21 @@
   background-color: #f7f8fa;
   border-radius: 8px;
   width: 350px;
-  min-width: 300px; /* Prevent shrinking too much */
+  min-width: 300px; /* Prevent shrinking too much on desktop */
   display: flex;
   flex-direction: column;
   max-height: 80vh; /* Allow scrolling within column if needed */
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  flex-shrink: 0; /* Don't shrink on desktop */
+}
+
+@media (max-width: 768px) {
+  .kanban-column {
+    width: 100%;
+    max-width: 450px; /* Reasonable max width for tablet/mobile */
+    min-width: 0; /* Allow shrinking on very small screens */
+    flex-shrink: 1;
+  }
 }
 
 .column-header {

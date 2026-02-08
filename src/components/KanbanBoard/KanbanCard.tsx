@@ -12,35 +12,35 @@ interface KanbanCardProps {
   indicatorColor?: string;
 }
 
-export const KanbanCard: React.FC<KanbanCardProps> = ({ 
+export const KanbanCardContent: React.FC<KanbanCardProps & {
+  setNodeRef?: (node: HTMLElement | null) => void;
+  attributes?: any;
+  listeners?: any;
+  style?: React.CSSProperties;
+  isEditing?: boolean;
+  onEditChange?: (isEditing: boolean) => void;
+  className?: string;
+}> = ({ 
   card, 
   deleteCard, 
-  updateCardTitle,
-  indicatorColor = '#ffd700' // Default fallback
+  updateCardTitle, 
+  indicatorColor = '#ffd700',
+  setNodeRef,
+  attributes,
+  listeners,
+  style,
+  isEditing: propIsEditing,
+  onEditChange,
+  className
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
+  // Use internal state if props are not provided (for standalone usage if any)
+  // But primarily we expect controlled usage now.
+  const [internalIsEditing, setInternalIsEditing] = useState(false);
+  
+  const isEditing = propIsEditing !== undefined ? propIsEditing : internalIsEditing;
+  const setIsEditing = onEditChange || setInternalIsEditing;
+
   const [editContent, setEditContent] = useState(card.content);
-
-  const {
-    setNodeRef,
-    attributes,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: card.id,
-    data: {
-      type: 'Card',
-      card,
-    },
-    disabled: isEditing, // Disable drag when editing
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
@@ -63,23 +63,13 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
     }
   };
 
-  if (isDragging) {
-    return (
-      <div
-        ref={setNodeRef}
-        style={style}
-        className="kanban-card dragging"
-      />
-    );
-  }
-
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className="kanban-card"
+      className={`kanban-card ${className || ''}`.trim()}
     >
       <div 
         className="card-indicator" 
@@ -115,5 +105,57 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
         </button>
       )}
     </div>
+  );
+};
+
+export const KanbanCard: React.FC<KanbanCardProps> = (props) => {
+  const [isEditing, setIsEditing] = useState(false); // Local state just to control drag disabling
+
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: props.card.id,
+    data: {
+      type: 'Card',
+      card: props.card,
+    },
+    disabled: isEditing, // This needs to be coordinated with content. 
+    // Actually, since content handles editing state, we need to lift it up 
+    // OR just accept that we can't disable drag easily from here without lifting state.
+    // However, the original code had state inside.
+    // Let's lift the state or pass a callback.
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  if (isDragging) {
+    return (
+      <KanbanCardContent
+        {...props}
+        setNodeRef={setNodeRef}
+        style={style}
+        className="dragging"
+      />
+    );
+  }
+
+  return (
+    <KanbanCardContent
+      {...props}
+      setNodeRef={setNodeRef}
+      attributes={attributes}
+      listeners={listeners}
+      style={style}
+      isEditing={isEditing}
+      onEditChange={setIsEditing}
+    />
   );
 };
