@@ -1,17 +1,10 @@
-import React, { useMemo } from 'react';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
-import type { Card, Column, Id } from './types';
-import { KanbanCard } from './KanbanCard';
+import React, { useMemo } from 'react';
 import { AddIcon } from '../Icons/Icons';
 import './KanbanBoard.css';
+import { KanbanCard } from './KanbanCard';
+import type { KanbanColumnProps } from './types';
 
-interface KanbanColumnProps {
-  column: Column;
-  cards: Card[];
-  deleteCard: (id: Id) => void;
-  updateCardTitle: (id: Id, newTitle: string) => void;
-  createCard: (columnId: Id) => void;
-}
 
 export const KanbanColumn: React.FC<KanbanColumnProps> = ({
   column,

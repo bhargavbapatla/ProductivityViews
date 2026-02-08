@@ -3,4 +3,5 @@ export interface TreeNodeData {
   name: string;
   children?: TreeNodeData[];
   isLoaded?: boolean;
+  hasChildren?: boolean;
 }

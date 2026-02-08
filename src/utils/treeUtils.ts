@@ -49,3 +49,14 @@ export const insertNode = (nodes: TreeNodeData[], parentId: string | null, newNo
     return node;
   });
 };
+
+export const findNodeLevel = (nodes: TreeNodeData[], id: string, currentLevel: number = 65): number | null => {
+  for (const node of nodes) {
+      if (node.id === id) return currentLevel;
+      if (node.children) {
+          const found = findNodeLevel(node.children, id, currentLevel + 1);
+          if (found) return found;
+      }
+  }
+  return null;
+};
