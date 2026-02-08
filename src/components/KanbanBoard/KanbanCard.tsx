@@ -33,8 +33,6 @@ export const KanbanCardContent: React.FC<KanbanCardProps & {
   onEditChange,
   className
 }) => {
-  // Use internal state if props are not provided (for standalone usage if any)
-  // But primarily we expect controlled usage now.
   const [internalIsEditing, setInternalIsEditing] = useState(false);
   
   const isEditing = propIsEditing !== undefined ? propIsEditing : internalIsEditing;
@@ -125,10 +123,6 @@ export const KanbanCard: React.FC<KanbanCardProps> = (props) => {
       card: props.card,
     },
     disabled: isEditing, // This needs to be coordinated with content. 
-    // Actually, since content handles editing state, we need to lift it up 
-    // OR just accept that we can't disable drag easily from here without lifting state.
-    // However, the original code had state inside.
-    // Let's lift the state or pass a callback.
   });
 
   const style = {

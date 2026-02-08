@@ -11,3 +11,10 @@ export type Card = {
   columnId: Id;
   content: string;
 };
+export interface KanbanColumnProps {
+  column: Column;
+  cards: Card[];
+  deleteCard: (id: Id) => void;
+  updateCardTitle: (id: Id, newTitle: string) => void;
+  createCard: (columnId: Id) => void;
+}
