@@ -4,35 +4,12 @@
   min-height: 100vh;
   width: 100%;
   box-sizing: border-box;
-  position: relative; /* Essential for positioning the background layer */
-  
-  /* 1. The Base Background Color */
-  background-color: #f8fafc !important; 
-  
-  /* Ensure content stays on top of the background pattern */
+  position: relative;
   z-index: 1;
 }
 
-/* 2. The Dot Grid Layer with Smooth Fade (Vignette) */
-.tree-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1; /* Place behind the tree content */
-  
-  /* The Dot Pattern */
-  background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
-  
-  /* The "Smooth Transition" Magic: Fade out the dots at the edges */
-  mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
-  
-  pointer-events: none; /* Allow clicks to pass through */
-}
+/* Old Dot Grid Layer Removed - Now handled globally in App.css */
+
 .node-wrapper {
   position: relative;
   margin-left: 32px;

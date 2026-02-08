@@ -12,7 +12,7 @@ import {
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
 import { KanbanColumn } from './KanbanColumn';
-import { KanbanCard } from './KanbanCard';
+import { KanbanCard, KanbanCardContent } from './KanbanCard';
 import type { Card, Column, Id } from './types';
 import './KanbanBoard.css';
 
@@ -53,7 +53,7 @@ export const KanbanBoard: React.FC = () => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 3, // 3px movement required to start drag
+        distance: 3,
       },
     })
   );
@@ -114,33 +114,41 @@ export const KanbanBoard: React.FC = () => {
         const activeIndex = cards.findIndex((t) => t.id === activeId);
         const overIndex = cards.findIndex((t) => t.id === overId);
 
+        if (activeIndex === -1 || overIndex === -1) return cards;
+
         if (cards[activeIndex].columnId !== cards[overIndex].columnId) {
-          // Clone the cards array to avoid mutating state directly
           const newCards = [...cards];
-          // Update the columnId of the active card
           newCards[activeIndex] = { 
             ...newCards[activeIndex], 
-            columnId: newCards[overIndex].columnId 
+            columnId: cards[overIndex].columnId 
           };
-          
           return arrayMove(newCards, activeIndex, overIndex);
+        }
+
+        if (activeIndex === overIndex) {
+            return cards;
         }
 
         return arrayMove(cards, activeIndex, overIndex);
       });
     }
 
-    // Dropping a Card over a Column
     const isOverAColumn = over.data.current?.type === 'Column';
     if (isActiveACard && isOverAColumn) {
       setCards((cards) => {
         const activeIndex = cards.findIndex((t) => t.id === activeId);
-        // Avoid mutation
+        
+        if (activeIndex === -1) return cards;
+
         if (cards[activeIndex].columnId !== overId) {
-             const newCards = [...cards];
-             newCards[activeIndex] = { ...newCards[activeIndex], columnId: overId as string };
-             return arrayMove(newCards, activeIndex, activeIndex);
+           return cards.map((card, index) => {
+             if (index === activeIndex) {
+                 return { ...card, columnId: overId as string };
+             }
+             return card;
+           });
         }
+
         return cards;
       });
     }
@@ -148,15 +156,6 @@ export const KanbanBoard: React.FC = () => {
 
   function onDragEnd(event: DragEndEvent) {
     setActiveCard(null);
-    const { active, over } = event;
-    if (!over) return;
-
-    const activeId = active.id;
-    const overId = over.id;
-
-    if (activeId === overId) return;
-    
-    // Final reordering if needed (usually handled by onDragOver for fluidity, but good to ensure)
   }
 
   return (
@@ -185,7 +184,7 @@ export const KanbanBoard: React.FC = () => {
         {createPortal(
           <DragOverlay>
             {activeCard && (
-              <KanbanCard
+              <KanbanCardContent
                 card={activeCard}
                 deleteCard={deleteCard}
                 updateCardTitle={updateCardTitle}
