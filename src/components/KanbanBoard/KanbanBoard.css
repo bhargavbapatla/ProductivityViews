@@ -1,0 +1,236 @@
+.kanban-board {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: center; /* Center the columns if they don't fill width */
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  .kanban-board {
+    padding: 10px; /* Reduce padding on mobile */
+    gap: 16px;
+  }
+}
+
+.kanban-columns-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  overflow-x: auto;
+  align-items: flex-start; /* Align columns to top */
+  justify-content: flex-start; /* Start from left on desktop */
+  padding-bottom: 20px; /* Space for scrollbar */
+}
+
+@media (max-width: 768px) {
+  .kanban-columns-container {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden; /* Vertical stack doesn't need horiz scroll usually */
+    height: auto;
+  }
+}
+
+/* Column Styles */
+.kanban-column {
+  background-color: #f7f8fa;
+  border-radius: 8px;
+  width: 350px;
+  min-width: 300px; /* Prevent shrinking too much on desktop */
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh; /* Allow scrolling within column if needed */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  flex-shrink: 0; /* Don't shrink on desktop */
+}
+
+@media (max-width: 768px) {
+  .kanban-column {
+    width: 100%;
+    max-width: 450px; /* Reasonable max width for tablet/mobile */
+    min-width: 0; /* Allow shrinking on very small screens */
+    flex-shrink: 1;
+  }
+}
+
+.column-header {
+  padding: 16px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-count {
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.add-column-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  padding: 0;
+}
+
+.add-column-btn svg {
+  stroke: white; /* Force white stroke */
+  display: block; /* Remove line-height issues */
+}
+
+.add-column-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.column-content {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  min-height: 100px; /* Drop target area */
+}
+
+.add-card-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 8px;
+  transition: background 0.2s;
+}
+
+.add-card-btn:hover {
+  background: #f0f0f0;
+}
+
+.add-card-btn svg {
+  stroke: #555; /* Force grey stroke */
+}
+
+.add-icon-small {
+  width: 16px;
+  height: 16px;
+}
+
+/* Card Styles */
+.kanban-card {
+  background-color: white;
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align text and delete btn to top */
+  cursor: grab;
+  position: relative;
+  border: 1px solid transparent; /* For focus/hover states */
+  transition: transform 0.2s, box-shadow 0.2s;
+  touch-action: none; /* Required for DnD on touch devices */
+}
+
+.kanban-card:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.kanban-card.dragging {
+  opacity: 0.5;
+  border: 1px dashed #999;
+}
+
+.card-indicator {
+  position: absolute;
+  left: 12px;
+  top: 16px;
+  bottom: 16px;
+  width: 4px;
+  border-radius: 2px;
+  background-color: #ffd700; /* Default yellow */
+}
+
+/* Adjust content padding to account for indicator */
+.card-content-wrapper {
+  margin-left: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-input {
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: none; /* If using textarea */
+  outline: none;
+}
+
+.card-input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.4;
+  word-break: break-word;
+  cursor: text; /* Indicate editability */
+}
+
+.delete-card-btn {
+  background: transparent;
+  border: none;
+  color: #ff6b6b;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kanban-card:hover .delete-card-btn {
+  opacity: 1;
+}
+
+.delete-card-btn:hover {
+  background-color: rgba(255, 107, 107, 0.1);
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSortable, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { AddIcon, DeleteIcon } from '../Icons/Icons';
 import './treeView.css';
 import type { TreeNodeData } from '../../types';
 
@@ -16,7 +17,6 @@ interface TreeNodeProps {
 
 const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLoadChildren, levelCode, activeDragLevel }) => {
   const [isExpanded, setIsExpanded] = useState(levelCode === 65);
-  const [isDeleting, setIsDeleting] = useState(false);
   
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(node.name);
@@ -31,7 +31,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLo
 
   // Manage overflow visibility for animations vs tooltips
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
     if (isExpanded) {
       // Wait for transition (300ms) then allow overflow for tooltips
       timer = setTimeout(() => {
@@ -95,7 +95,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLo
   };
 
   const currentLetter = String.fromCharCode(levelCode);
-  const iconColors: Record<string, string> = { A: '#3498db', B: '#7ed321', C: '#95de44', D: '#b8e986' };
+  const iconColors: Record<string, string> = { A: '#3498db', B: '#7ed321', C: '#95de44', D: '#8e44ad' };
 
   // Disable interaction with children nodes when dragging a parent node to prevent collision issues
   const isInteractionDisabled = activeDragLevel !== null && activeDragLevel !== undefined && levelCode > activeDragLevel;
@@ -145,7 +145,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLo
           aria-label="Add Child Node"
           data-tooltip="Add Child Node"
         >
-          +
+          <AddIcon />
         </button>
         {levelCode !== 65 && (
           <button 
@@ -155,7 +155,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, onDelete, onEdit, onAdd, onLo
             aria-label="Delete Node"
             data-tooltip="Delete Node"
           >
-            ✕
+            <DeleteIcon />
           </button>
         )}
       </div>
